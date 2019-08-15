@@ -72,8 +72,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YYH-TV-x24">
-                                                    <rect key="frame" x="20" y="12" width="33.5" height="20.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="进入KVOTestControllerVC" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YYH-TV-x24">
+                                                    <rect key="frame" x="20" y="12" width="198.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -89,6 +89,9 @@
                                             </subviews>
                                             <color key="backgroundColor" red="0.89803921568627454" green="0.22637629258413236" blue="0.44483987790236779" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="ann-WW-r4N" kind="show" id="nR2-AH-aJ5"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="eF8-8D-AEF" detailTextLabel="cYz-ma-kur" style="IBUITableViewCellStyleValue1" id="4Ef-EZ-zew">
                                         <rect key="frame" x="0.0" y="88" width="414" height="44"/>
@@ -128,6 +131,49 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8TE-xm-kTf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="578" y="-204"/>
+        </scene>
+        <!--Test ControllerVC-->
+        <scene sceneID="gSZ-cs-EX2">
+            <objects>
+                <viewController id="ann-WW-r4N" customClass="GXKVOTestControllerVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="80N-Rj-jIH">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RVQ-U5-GCL">
+                                <rect key="frame" x="78" y="208" width="123" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="改变单例的属性值"/>
+                                <connections>
+                                    <action selector="changeObserveProperty:" destination="ann-WW-r4N" eventType="touchUpInside" id="eh6-AW-82o"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgx-Mg-Z9y">
+                                <rect key="frame" x="116" y="271" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZFl-H5-5Mq">
+                                <rect key="frame" x="78" y="131" width="123" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="对单例的属性监听"/>
+                                <connections>
+                                    <action selector="addObserveForShared:" destination="ann-WW-r4N" eventType="touchUpInside" id="CAu-ID-AI9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FTr-Rt-nro">
+                                <rect key="frame" x="116" y="336" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ZDc-3d-QkO"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IvK-NA-bG4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1399" y="-905"/>
         </scene>
         <!--TestVC-->
         <scene sceneID="FKL-9n-g0P">
@@ -201,6 +247,22 @@
                                 <state key="normal" title="移除age监听"/>
                                 <connections>
                                     <action selector="removeAgeObserver:" destination="jXc-bk-o6z" eventType="touchUpInside" id="HDJ-Lp-q6g"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4r6-e8-3b2">
+                                <rect key="frame" x="128" y="495" width="108" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="对单例添加监听"/>
+                                <connections>
+                                    <action selector="addSharedObserve:" destination="jXc-bk-o6z" eventType="touchUpInside" id="VPP-aD-q44"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gVb-6Y-1sI">
+                                <rect key="frame" x="123" y="533" width="108" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="改变单例的属性"/>
+                                <connections>
+                                    <action selector="changeSharedProperty:" destination="jXc-bk-o6z" eventType="touchUpInside" id="dKW-5R-HY0"/>
                                 </connections>
                             </button>
                         </subviews>

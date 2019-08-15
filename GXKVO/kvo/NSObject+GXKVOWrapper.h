@@ -12,22 +12,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define GXObserve(TARGET, KEYPATH) \
-    ({ \
-        __weak id weakTarget = (TARGET); \
-        [weakTarget addObserver:self keyPath:@keypath(TARGET, KEYPATH)]; \
-    })
-
-#define GXRemoveObserve(TARGET, KEYPATH) \
-    ({ \
-        __weak id weakTarget = (TARGET); \
-        [weakTarget removeObserver:self keyPath:@keypath(TARGET, KEYPATH)]; \
-    })
+//#define GXObserve(TARGET, KEYPATH) \
+//    ({ \
+//        __weak id weakTarget = (TARGET); \
+//        [weakTarget addObserver:self keyPath:@keypath(TARGET, KEYPATH)]; \
+//    })
+//
+//#define GXRemoveObserve(TARGET, KEYPATH) \
+//    ({ \
+//        __weak id weakTarget = (TARGET); \
+//        [weakTarget removeObserver:self keyPath:@keypath(TARGET, KEYPATH)]; \
+//    })
 
 @interface NSObject (GXKVOWrapper)
 
-- (GXKVOSignal *)addObserver:(NSObject *)observer keyPath:(NSString *)keyPath;
-- (void)removeObserver:(NSObject *)observer keyPath:(NSString *)keyPath;
+//- (GXKVOSignal *)addObserver:(NSObject *)observer keyPath:(NSString *)keyPath;
+//- (void)removeObserver:(NSObject *)observer keyPath:(NSString *)keyPath;
 
 @end
 
