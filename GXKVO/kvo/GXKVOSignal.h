@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GXKVOMacro.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,27 +22,34 @@ NS_ASSUME_NONNULL_BEGIN
         [GXKVOWrapper removeObserver:self keyPath:@keypath(TARGET, KEYPATH)]; \
     })
 
+#define GXRemoveAllObserve(TARGET, KEYPATH) \
+    ({ \
+        [GXKVOWrapper removeAllObserver:self]; \
+    })
+
+
 static NSString *const GXKVOSignalKeyPath = @"GXKVOSignalKeyPath";
 typedef void (^GXKVOSignalBlock)(id target, id observer, NSDictionary *change);
 
+
+
+
 @interface GXKVOSignal : NSObject
 
-@property (nonatomic, readonly, weak) NSObject *weakTarget;
-@property (nonatomic, readonly, weak) NSObject *observer;
-@property (nonatomic, readonly, copy) NSString *keyPath;
-@property (nonatomic, readonly, assign) NSKeyValueObservingOptions options;
-@property (nonatomic, readonly, copy) GXKVOSignalBlock block;
-
-- (id)initWithTarget:(__weak NSObject *)target observer:(__weak NSObject *)observer keyPath:(NSString *)keyPath;
 - (void)subscribNext:(GXKVOSignalBlock)nextBlock;
 - (GXKVOSignal *)configOptions:(NSKeyValueObservingOptions)options;
 
 @end
 
 
+
+
 @interface GXKVOWrapper : NSObject
+
 + (GXKVOSignal *)addObserver:(NSObject *)observer target:(NSObject *)target keyPath:(NSString *)keyPath;
 + (void)removeObserver:(NSObject *)observer keyPath:(NSString *)keyPath;
++ (void)removeAllObserver:(NSObject *)observer;
+
 @end
 
 NS_ASSUME_NONNULL_END

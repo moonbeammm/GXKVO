@@ -8,11 +8,17 @@
 
 #import "GXKVOSignal.h"
 #import <pthread.h>
+#import <objc/runtime.h>
 
 @interface GXKVOSignal ()
 {
     pthread_mutex_t _mutex;
 }
+@property (nonatomic, readonly, weak) NSObject *weakTarget;
+@property (nonatomic, readonly, weak) NSObject *observer;
+@property (nonatomic, readonly, copy) NSString *keyPath;
+@property (nonatomic, readonly, assign) NSKeyValueObservingOptions options;
+@property (nonatomic, readonly, copy) GXKVOSignalBlock block;
 
 @end
 
@@ -37,18 +43,27 @@
     }
     return self;
 }
+
+- (void)dealloc {
+    [self.weakTarget removeObserver:self forKeyPath:self.keyPath];
+    pthread_mutex_destroy(&_mutex);
+    NSLog(@"GXKVOSignal dealloc!");
+}
+
 - (GXKVOSignal *)configOptions:(NSKeyValueObservingOptions)options {
     pthread_mutex_lock(&_mutex);
     _options = options;
     pthread_mutex_unlock(&_mutex);
     return self;
 }
+
 - (void)subscribNext:(GXKVOSignalBlock)nextBlock {
     pthread_mutex_lock(&_mutex);
     _block = [nextBlock copy];
     pthread_mutex_unlock(&_mutex);
     [self.weakTarget addObserver:self forKeyPath:self.keyPath options:self.options context:(__bridge void *)self];
 }
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (context != (__bridge void *)self) {
         return;
@@ -82,55 +97,135 @@
     if (block == nil || target == nil) return;
     block(target, observer, changeWithKeyPath);
 }
+
+@end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@interface GXKVOController : NSObject
+{
+    pthread_mutex_t _mutex;
+    NSMapTable *_keyPathSignalMap;
+}
+@end
+
+@implementation GXKVOController
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _keyPathSignalMap = [NSMapTable weakToStrongObjectsMapTable];
+        pthread_mutex_init(&_mutex, NULL);
+    }
+    return self;
+}
+
 - (void)dealloc {
-    [self.weakTarget removeObserver:self forKeyPath:self.keyPath];
+    [self removeAllSignals];
     pthread_mutex_destroy(&_mutex);
-    NSLog(@"GXKVOSignal dealloc!");
+}
+
+- (GXKVOSignal *)addObserver:(NSObject *)observer target:(NSObject *)target keyPath:(NSString *)keyPath {
+    // lock
+    pthread_mutex_lock(&_mutex);
+
+    GXKVOSignal *signal = [_keyPathSignalMap objectForKey:keyPath];
+    if (signal) {
+        // 已经监听过了。防止重复注册。
+        pthread_mutex_unlock(&_mutex);
+        return nil;
+    }
+    
+    signal = [[GXKVOSignal alloc] initWithTarget:target observer:observer keyPath:keyPath];
+    [_keyPathSignalMap setObject:signal forKey:keyPath];
+    
+    // unlock
+    pthread_mutex_unlock(&_mutex);
+
+    return signal;
+}
+
+- (void)removeAllSignals {
+    pthread_mutex_lock(&_mutex);
+    [_keyPathSignalMap removeAllObjects];
+    pthread_mutex_unlock(&_mutex);
+}
+
+- (void)removeObserver:(NSObject *)observer keyPath:(NSString *)keyPath {
+    pthread_mutex_lock(&_mutex);
+    [_keyPathSignalMap removeObjectForKey:keyPath];
+    pthread_mutex_unlock(&_mutex);
 }
 
 @end
 
-static NSMapTable <NSObject *,NSMutableSet <GXKVOSignal *>*>* keyPathSignalsMap;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+static NSString *kGXKVOControllerKey = @"kGXKVOControllerKey";
+
 @implementation GXKVOWrapper
 
 + (GXKVOSignal *)addObserver:(NSObject *)observer target:(NSObject *)target keyPath:(NSString *)keyPath {
     @synchronized (self) {
-        if (!keyPathSignalsMap) {
-            keyPathSignalsMap = [NSMapTable weakToStrongObjectsMapTable];
+
+        GXKVOController *kvoControl = objc_getAssociatedObject(observer, &kGXKVOControllerKey);
+        if (!kvoControl) {
+            kvoControl = [GXKVOController new];
+            objc_setAssociatedObject(observer, &kGXKVOControllerKey, kvoControl, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
         
-        // 检查是否已添加过监听
-        NSMutableSet *signals = [keyPathSignalsMap objectForKey:observer];
-        if (!signals) {
-            signals = [NSMutableSet new];
-            [keyPathSignalsMap setObject:signals forKey:observer];
-        }
-        for (GXKVOSignal *tempSignal in signals) {
-            if (tempSignal.observer == observer && [tempSignal.keyPath isEqualToString:keyPath]) {
-                return nil;
-            }
-        }
-        
-        GXKVOSignal *signal = [[GXKVOSignal alloc] initWithTarget:target observer:observer keyPath:keyPath];
-        
-        // 保存新的监听
-        [signals addObject:signal];
-        
+        GXKVOSignal *signal = [kvoControl addObserver:observer target:target keyPath:keyPath];
+
         return signal;
     }
-    return nil;
 }
+
 + (void)removeObserver:(NSObject *)observer keyPath:(NSString *)keyPath {
     @synchronized (self) {
-        NSMutableSet *signals = [keyPathSignalsMap objectForKey:keyPath];
-        for (GXKVOSignal *tempSignal in signals) {
-            if (tempSignal.observer == observer && [tempSignal.keyPath isEqualToString:keyPath]) {
-                NSMutableSet *tempSignals = [NSMutableSet setWithSet:signals];
-                [tempSignals removeObject:tempSignal];
-                [keyPathSignalsMap setObject:[tempSignals copy] forKey:keyPath];
-                break;
-            }
-        }
+        GXKVOController *kvoControl = objc_getAssociatedObject(observer, &kGXKVOControllerKey);
+        [kvoControl removeObserver:observer keyPath:keyPath];
+    }
+}
+
++ (void)removeAllObserver:(NSObject *)observer {
+    @synchronized (self) {
+        GXKVOController *kvoControl = objc_getAssociatedObject(observer, &kGXKVOControllerKey);
+        [kvoControl removeAllSignals];
     }
 }
 

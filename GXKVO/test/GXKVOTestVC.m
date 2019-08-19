@@ -9,7 +9,7 @@
 #import "GXKVOTestVC.h"
 #import "GXKVOTestModel.h"
 #import "GXKVOTestModelShare.h"
-#import "GXKVO.h"
+#import "GXKVOSignal.h"
 
 @interface GXKVOTestVC ()
 

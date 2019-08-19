@@ -14,7 +14,6 @@
 		8E12AB9B2303B58100322892 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E12AB9A2303B58100322892 /* main.m */; };
 		8E12ABA52303B58100322892 /* GXKVOTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E12ABA42303B58100322892 /* GXKVOTests.m */; };
 		8E12ABBD2303DF2C00322892 /* GXKVOSignal.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E12ABB82303DF2C00322892 /* GXKVOSignal.m */; };
-		8E12ABBE2303DF2C00322892 /* NSObject+GXKVOWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E12ABB92303DF2C00322892 /* NSObject+GXKVOWrapper.m */; };
 		8E12ABC12303DF5300322892 /* GXKVOTestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E12ABC02303DF5300322892 /* GXKVOTestVC.m */; };
 		8E12ABC42303DF8600322892 /* GXKVOTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E12ABC32303DF8600322892 /* GXKVOTestModel.m */; };
 		8E12ABCB230417F200322892 /* GXKVOTestModelShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E12ABCA230417F200322892 /* GXKVOTestModelShare.m */; };
@@ -45,16 +44,13 @@
 		8E12ABA02303B58100322892 /* GXKVOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GXKVOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E12ABA42303B58100322892 /* GXKVOTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GXKVOTests.m; sourceTree = "<group>"; };
 		8E12ABA62303B58100322892 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8E12ABB72303DF2C00322892 /* NSObject+GXKVOWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+GXKVOWrapper.h"; sourceTree = "<group>"; };
 		8E12ABB82303DF2C00322892 /* GXKVOSignal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GXKVOSignal.m; sourceTree = "<group>"; };
-		8E12ABB92303DF2C00322892 /* NSObject+GXKVOWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+GXKVOWrapper.m"; sourceTree = "<group>"; };
 		8E12ABBA2303DF2C00322892 /* GXKVOMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GXKVOMacro.h; sourceTree = "<group>"; };
 		8E12ABBB2303DF2C00322892 /* GXKVOSignal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GXKVOSignal.h; sourceTree = "<group>"; };
 		8E12ABBF2303DF5300322892 /* GXKVOTestVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GXKVOTestVC.h; sourceTree = "<group>"; };
 		8E12ABC02303DF5300322892 /* GXKVOTestVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GXKVOTestVC.m; sourceTree = "<group>"; };
 		8E12ABC22303DF8600322892 /* GXKVOTestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GXKVOTestModel.h; sourceTree = "<group>"; };
 		8E12ABC32303DF8600322892 /* GXKVOTestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GXKVOTestModel.m; sourceTree = "<group>"; };
-		8E12ABC52303E0B700322892 /* GXKVO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GXKVO.h; sourceTree = "<group>"; };
 		8E12ABC9230417F200322892 /* GXKVOTestModelShare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GXKVOTestModelShare.h; sourceTree = "<group>"; };
 		8E12ABCA230417F200322892 /* GXKVOTestModelShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GXKVOTestModelShare.m; sourceTree = "<group>"; };
 		8E12ABCD230422DB00322892 /* KVOController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVOController.h; sourceTree = "<group>"; };
@@ -132,12 +128,9 @@
 		8E12ABB62303DF2C00322892 /* kvo */ = {
 			isa = PBXGroup;
 			children = (
-				8E12ABC52303E0B700322892 /* GXKVO.h */,
 				8E12ABBA2303DF2C00322892 /* GXKVOMacro.h */,
 				8E12ABBB2303DF2C00322892 /* GXKVOSignal.h */,
 				8E12ABB82303DF2C00322892 /* GXKVOSignal.m */,
-				8E12ABB72303DF2C00322892 /* NSObject+GXKVOWrapper.h */,
-				8E12ABB92303DF2C00322892 /* NSObject+GXKVOWrapper.m */,
 			);
 			path = kvo;
 			sourceTree = "<group>";
@@ -276,7 +269,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E12ABBE2303DF2C00322892 /* NSObject+GXKVOWrapper.m in Sources */,
 				8E12ABCB230417F200322892 /* GXKVOTestModelShare.m in Sources */,
 				8E12ABD72304230700322892 /* GXKVOTestControllerVC.m in Sources */,
 				8E12ABBD2303DF2C00322892 /* GXKVOSignal.m in Sources */,
