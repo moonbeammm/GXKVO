@@ -41,17 +41,17 @@
     GXRemoveObserve(self.person, age);
 }
 - (IBAction)addNamageObserver:(id)sender {
-    [[GXObserve(self.person, name) configOptions:NSKeyValueObservingOptionInitial] subscribNext:^(GXKVOTestModel *target, GXKVOTestVC * observer, NSDictionary *change) {
+    [[GXObserve(self.person, name) configOptions:NSKeyValueObservingOptionInitial] subscribNext:^(GXKVOTestModel *target, GXKVOTestVC * observer, id value) {
         NSLog(@"sgx >> NSKeyValueObservingOptionNew %@ %@",target.name,observer.person);// 这里循环引用了.
     }];
 }
 - (IBAction)addAgeObserver:(id)sender {
-    [[GXObserve(self.person, age) configOptions:NSKeyValueObservingOptionNew] subscribNext:^(GXKVOTestModel *target, GXKVOTestVC * observer, NSDictionary *change) {
+    [[GXObserve(self.person, age) configOptions:NSKeyValueObservingOptionNew] subscribNext:^(GXKVOTestModel *target, GXKVOTestVC * observer, id value) {
         NSLog(@"sgx >> NSKeyValueObservingOptionNew %@, %@",target.age,observer.person);
     }];
 }
 - (IBAction)addSharedObserve:(id)sender {
-    [GXObserve([GXKVOTestModelShare shared], country) subscribNext:^(GXKVOTestModelShare * target, id  _Nonnull observer, NSDictionary * _Nonnull change) {
+    [GXObserve([GXKVOTestModelShare shared], country) subscribNext:^(GXKVOTestModelShare * target, id  _Nonnull observer, id value) {
         NSLog(@"sgx >> NSKeyValueObservingOptionNew %@",target.country);
     }];
 }

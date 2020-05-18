@@ -75,7 +75,7 @@
         return;
     }
     
-    NSDictionary<NSKeyValueChangeKey, id> *changeWithKeyPath = change;
+//    NSDictionary<NSKeyValueChangeKey, id> *changeWithKeyPath = change;
     GXKVOSignalBlock block;
     id observer;
     id target;
@@ -87,15 +87,17 @@
     observer = self.observer;
     target = self.weakTarget;
     
-    NSMutableDictionary<NSString *, id> *tempChange = [NSMutableDictionary dictionaryWithObject:keyPath?:@"" forKey:GXKVOSignalKeyPath];
-    [tempChange addEntriesFromDictionary:change];
-    changeWithKeyPath = [tempChange copy];
+//    NSMutableDictionary<NSString *, id> *tempChange = [NSMutableDictionary dictionaryWithObject:keyPath?:@"" forKey:GXKVOSignalKeyPath];
+//    [tempChange addEntriesFromDictionary:change];
+//    changeWithKeyPath = [tempChange copy];
+    
+    NSObject *value = [object valueForKey:keyPath];
     
     // unlock
     pthread_mutex_unlock(&_mutex);
     
     if (block == nil || target == nil) return;
-    block(target, observer, changeWithKeyPath);
+    block(target, observer, value);
 }
 
 @end

@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 static NSString *const GXKVOSignalKeyPath = @"GXKVOSignalKeyPath";
-typedef void (^GXKVOSignalBlock)(id target, id observer, NSDictionary *change);
+typedef void (^GXKVOSignalBlock)(id target, id observer, id value);
 
 
 
