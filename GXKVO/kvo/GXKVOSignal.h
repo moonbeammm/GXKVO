@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define GXObserve(TARGET, KEYPATH) \
     ({ \
-        __weak id weakTarget = (TARGET); \
+        id weakTarget = (TARGET); \
         [GXKVOWrapper addObserver:self target:weakTarget keyPath:@keypath(TARGET, KEYPATH)]; \
     })
 
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 static NSString *const GXKVOSignalKeyPath = @"GXKVOSignalKeyPath";
-typedef void (^GXKVOSignalBlock)(id target, id observer, id value);
+typedef void (^GXKVOSignalBlock)(id oldValue, id newValue);
 
 
 

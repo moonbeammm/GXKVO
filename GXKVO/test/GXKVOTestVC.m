@@ -14,6 +14,7 @@
 @interface GXKVOTestVC ()
 
 @property (nonatomic, strong) GXKVOTestModel *person;
+@property (nonatomic, strong) NSString *myName;
 
 @end
 
@@ -32,7 +33,7 @@
     self.person.name = @"change name";
 }
 - (IBAction)changeAge:(id)sender {
-    self.person.age = @"change age";
+    self.myName = @"change age";
 }
 - (IBAction)removeNameObserver:(id)sender {
     GXRemoveObserve(self.person, name);
@@ -41,18 +42,18 @@
     GXRemoveObserve(self.person, age);
 }
 - (IBAction)addNamageObserver:(id)sender {
-    [[GXObserve(self.person, name) configOptions:NSKeyValueObservingOptionInitial] subscribNext:^(GXKVOTestModel *target, GXKVOTestVC * observer, id value) {
-        NSLog(@"sgx >> NSKeyValueObservingOptionNew %@ %@",target.name,observer.person);// 这里循环引用了.
+    [GXObserve(self.person, name) subscribNext:^(id value, id newValue) {
+        NSLog(@"sgx >> NSKeyValueObservingOptionNew %@ %@",value,newValue);// 这里循环引用了.
     }];
 }
 - (IBAction)addAgeObserver:(id)sender {
-    [[GXObserve(self.person, age) configOptions:NSKeyValueObservingOptionNew] subscribNext:^(GXKVOTestModel *target, GXKVOTestVC * observer, id value) {
-        NSLog(@"sgx >> NSKeyValueObservingOptionNew %@, %@",target.age,observer.person);
+    [GXObserve(self, myName) subscribNext:^(id value, id newValue) {
+        NSLog(@"sgx >> NSKeyValueObservingOptionNew %@, %@",value,newValue);
     }];
 }
 - (IBAction)addSharedObserve:(id)sender {
-    [GXObserve([GXKVOTestModelShare shared], country) subscribNext:^(GXKVOTestModelShare * target, id  _Nonnull observer, id value) {
-        NSLog(@"sgx >> NSKeyValueObservingOptionNew %@",target.country);
+    [GXObserve([GXKVOTestModelShare shared], country) subscribNext:^(id value, id newValue) {
+        NSLog(@"sgx >> NSKeyValueObservingOptionNew %@",newValue);
     }];
 }
 - (IBAction)changeSharedProperty:(id)sender {
