@@ -17,6 +17,7 @@
 
 @property (nonatomic, strong) GXKVOTestModel *person;
 @property (nonatomic, strong) NSString *ownerName;
+@property (nonatomic, strong) GXKVOSignal *signal;
 
 - (void)testNormal;
 - (void)testShared;
@@ -55,6 +56,7 @@
 - (void)testSelf {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
+//    self.signal = GXObserve(self, ownerName);
     [GXObserve(self, ownerName) subscribNext:^(id value, id newValue) {
         NSLog(@"\n 监听自己的属性！ \n old name: %@ \n new name: %@",value,newValue);// 这里循环引用了.
     }];
@@ -88,18 +90,18 @@
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
-//    __weak GXKVOTestsVC *weakTestShareVC = self.testShareVC;
-//    __weak GXKVOTestsVC *weakTestNormalVC = self.testNormalVC;
-//    __weak GXKVOTestsVC *weakTestSelfVC = self.testSelfVC;
-//    
-//    self.testShareVC = [GXKVOTestsVC new];
-//    self.testNormalVC = [GXKVOTestsVC new];
-//    self.testSelfVC = [GXKVOTestsVC new];
-//
-//        XCTAssertNil(weakTestShareVC);
-//        XCTAssertNil(weakTestNormalVC);
-//        XCTAssertNil(weakTestSelfVC);
-
+    __weak GXKVOTestsVC *weakTestShareVC = self.testShareVC;
+    __weak GXKVOTestsVC *weakTestNormalVC = self.testNormalVC;
+    __weak GXKVOTestsVC *weakTestSelfVC = self.testSelfVC;
+    
+    self.testShareVC = [GXKVOTestsVC new];
+    self.testNormalVC = [GXKVOTestsVC new];
+    self.testSelfVC = [GXKVOTestsVC new];
+    
+    XCTAssertNil(weakTestShareVC);
+    XCTAssertNil(weakTestNormalVC);
+    XCTAssertNil(weakTestSelfVC);
+    
 }
 
 // 监听单例的属性。测试是否会内存泄漏。

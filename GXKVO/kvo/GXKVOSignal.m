@@ -14,7 +14,10 @@
 {
     pthread_mutex_t _mutex;
 }
-@property (nonatomic, readonly, weak) NSObject *target;
+#warning sgx: 这里有bug
+// 弱引用：target ！= observer。如果target提前释放。会导致崩溃。
+// 强引用：target == observer。会形成循环引用。
+@property (nonatomic, readonly) NSObject *target;
 @property (nonatomic, readonly, weak) NSObject *observer;
 @property (nonatomic, readonly, copy) NSString *keyPath;
 @property (nonatomic, readonly, assign) NSKeyValueObservingOptions options;
